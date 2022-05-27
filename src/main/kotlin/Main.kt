@@ -44,7 +44,7 @@ data class Donut(
 )
 
 data class Post(
-    val id: Int = 1,
+    val id: Int = 0,
     val idOwner: Int = 1,
     val idAuthor: Int = 1,
     val date: Int = 3600,
@@ -71,7 +71,6 @@ data class Post(
 
 object WallService {
     private var posts = emptyArray<Post>()
-    private var idWS = 0
 
     fun add(post: Post): Post {
         posts += post
@@ -79,62 +78,45 @@ object WallService {
         return posts.last()
     }
 
-//    fun addSize(): Int {
-//        return posts.size + 1
-//    }
-
     fun get(id: Int): Post {
         return posts[id]
     }
 
     fun update(post: Post): Boolean {
-        val saveIdOwner = posts[post.id + 1].idOwner
-        val saveDate = posts[post.id + 1].date
+        val saveIdOwner = posts[post.id].idOwner
+        val saveDate = posts[post.id].date
         if (post.id > posts.size) {
             println(post.id)
             return false
         } else {
-            posts[post.id + 1] = post.copy(idOwner = saveIdOwner, date = saveDate)
+            posts[post.id] = post.copy(id = post.id + 1, idOwner = saveIdOwner, date = saveDate)
             return true
         }
     }
-
-
 }
-
 
 fun main() {
 
-    WallService.add(Post(copyright = Copyright(link = "Питер"), text = "Первый"))
-    WallService.add(Post(text = "Второй"))
-    WallService.add(Post(text = "Третий", ))
-    WallService.add(Post(text = "Четвертый"))
-    WallService.add(Post(text = "Пятый"))
-    WallService.add(Post(text = "Шестой"))
-//    WallService.add()
+    WallService.add(Post(copyright = Copyright(link = "Питер"), text = "Первый пост"))
+    WallService.add(Post(text = "Второй пост", idOwner = 2))
+    WallService.add(Post(text = "Третий пост", date = 72000, idOwner = 33))
+    WallService.add(Post(text = "Четвертый пост"))
+    WallService.add(Post(text = "Пятый пост"))
+    WallService.add(Post(text = "Шестой пост"))
 
-//    val post1 = Post(id = WallService.addSize(), copyright = Copyright(link = "Питер"), text = "Ты квас допил?")
-//    WallService.add(post1)
-//    val post2 = Post(id = WallService.addSize(), text = "Сам ты квасдопил!", date = 7200)
-//    WallService.add(post2)
+    println("${WallService.get(0).id} ${WallService.get(0).text} ${WallService.get(0).idOwner} ${WallService.get(0).date}")
+    println("${WallService.get(1).id} ${WallService.get(1).text} ${WallService.get(1).idOwner} ${WallService.get(1).date}")
+    println("${WallService.get(2).id} ${WallService.get(2).text} ${WallService.get(2).idOwner} ${WallService.get(2).date}")
+    println("${WallService.get(3).id} ${WallService.get(3).text} ${WallService.get(3).idOwner} ${WallService.get(3).date}")
+    println("${WallService.get(4).id} ${WallService.get(4).text} ${WallService.get(4).idOwner} ${WallService.get(4).date}")
+    println("${WallService.get(5).id} ${WallService.get(5).text} ${WallService.get(5).idOwner} ${WallService.get(5).date}")
 
-    println("${WallService.get(0).id} ${WallService.get(0).text}")
-    println("${WallService.get(1).id} ${WallService.get(1).text}")
-    println("${WallService.get(2).id} ${WallService.get(2).text}")
-    println("${WallService.get(3).id} ${WallService.get(3).text}")
-    println("${WallService.get(4).id} ${WallService.get(4).text}")
-    println("${WallService.get(5).id} ${WallService.get(5).text}")
+    WallService.update(Post(id = 2, text = "Вместо третьего поста", idOwner = 11, date = 150000))
 
-//    val post3 = Post(id = 2, text = "Вместо третьего", date = 150000)
-    WallService.update(Post(id = 2, text = "Вместо третьего", date = 150000))
-
-    println("${WallService.get(0).id} ${WallService.get(0).text}")
-    println("${WallService.get(1).id} ${WallService.get(1).text}")
-    println("${WallService.get(2).id} ${WallService.get(2).text}")
-    println("${WallService.get(3).id} ${WallService.get(3).text}")
-    println("${WallService.get(4).id} ${WallService.get(4).text}")
-    println("${WallService.get(5).id} ${WallService.get(5).text}")
-
-    println("${WallService.get(2).id} ${WallService.get(2).text} ${WallService.get(2).date}")
-
+    println("${WallService.get(0).id} ${WallService.get(0).text} ${WallService.get(0).idOwner} ${WallService.get(0).date}")
+    println("${WallService.get(1).id} ${WallService.get(1).text} ${WallService.get(1).idOwner} ${WallService.get(1).date}")
+    println("${WallService.get(2).id} ${WallService.get(2).text} ${WallService.get(2).idOwner} ${WallService.get(2).date}")
+    println("${WallService.get(3).id} ${WallService.get(3).text} ${WallService.get(3).idOwner} ${WallService.get(3).date}")
+    println("${WallService.get(4).id} ${WallService.get(4).text} ${WallService.get(4).idOwner} ${WallService.get(4).date}")
+    println("${WallService.get(5).id} ${WallService.get(5).text} ${WallService.get(5).idOwner} ${WallService.get(5).date}")
 }
