@@ -83,13 +83,15 @@ object WallService {
     }
 
     fun update(post: Post): Boolean {
-        val saveIdOwner = posts[post.id].idOwner
-        val saveDate = posts[post.id].date
+
         if (post.id > posts.size) {
-            println(post.id)
+            println("Пост ${post.id} не существует")
             return false
         } else {
+            val saveIdOwner = posts[post.id].idOwner
+            val saveDate = posts[post.id].date
             posts[post.id] = post.copy(id = post.id + 1, idOwner = saveIdOwner, date = saveDate)
+            println("Пост ${post.id} успешно изменен")
             return true
         }
     }
