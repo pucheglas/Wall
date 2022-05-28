@@ -24,7 +24,6 @@ class WallServiceTest {
         val post = Post(id = 2, text = "Вместо третьего поста", idOwner = 11, date = 150000)
 
         println(post)
-//        val testIdOwner : Boolean = post.idOwner.equals(WallService.get(2).idOwner)
         Assert.assertEquals(true, WallService.update(post))
     }
 
@@ -38,7 +37,6 @@ class WallServiceTest {
         val post = Post(id = 12, text = "Вместо третьего поста", idOwner = 11, date = 150000)
 
         println(post)
-//        val testIdOwner : Boolean = post.idOwner.equals(WallService.get(2).idOwner)
         Assert.assertEquals(false, WallService.update(post))
     }
 }
