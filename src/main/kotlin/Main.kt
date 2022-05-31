@@ -52,8 +52,8 @@ data class Post(
     val replyOwner: Int = 1,
     val idReplyPost: Int = 1,
     val friendsOnly: Boolean = false,
-    val comments: Comments = Comments(),
-    val copyright: Copyright = Copyright(),
+    val comments: Comments? = Comments(),
+    val copyright: Copyright? = Copyright(),
     val likes: Likes = Likes(),
     val reposts: Reposts = Reposts(),
     val views: Views = Views(),
@@ -65,7 +65,7 @@ data class Post(
     val isPinned: Boolean = false,
     val markedAsAds: Boolean = false,
     val isFavorite: Boolean = false,
-    val donut: Donut = Donut(),
+    val donut: Donut? = Donut(),
     val idPostponed: Boolean = false
 )
 
@@ -113,7 +113,7 @@ fun main() {
     println("${WallService.get(4).id} ${WallService.get(4).text} ${WallService.get(4).idOwner} ${WallService.get(4).date}")
     println("${WallService.get(5).id} ${WallService.get(5).text} ${WallService.get(5).idOwner} ${WallService.get(5).date}")
 
-    WallService.update(Post(id = 2, text = "Вместо третьего поста", idOwner = 11, date = 150000))
+    WallService.update(Post(id = 4, text = "Вместо пятого поста", idOwner = 11, date = 150000))
 
     println("${WallService.get(0).id} ${WallService.get(0).text} ${WallService.get(0).idOwner} ${WallService.get(0).date}")
     println("${WallService.get(1).id} ${WallService.get(1).text} ${WallService.get(1).idOwner} ${WallService.get(1).date}")
