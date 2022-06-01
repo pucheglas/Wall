@@ -66,7 +66,8 @@ data class Post(
     val markedAsAds: Boolean = false,
     val isFavorite: Boolean = false,
     val donut: Donut? = Donut(),
-    val idPostponed: Boolean = false
+    val idPostponed: Boolean = false,
+    val attachments: Array<Attachment>? = emptyArray()
 )
 
 object WallService {
