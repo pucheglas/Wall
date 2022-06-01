@@ -67,7 +67,7 @@ data class Post(
     val isFavorite: Boolean = false,
     val donut: Donut? = Donut(),
     val idPostponed: Boolean = false,
-    val attachments: Array<Attachment>? = emptyArray()
+    var attachments: Array<Attachment>? = emptyArray()
 )
 
 object WallService {
@@ -115,6 +115,7 @@ fun main() {
     println("${WallService.get(5).id} ${WallService.get(5).text} ${WallService.get(5).idOwner} ${WallService.get(5).date}")
 
     WallService.update(Post(id = 4, text = "Вместо пятого поста", idOwner = 11, date = 150000))
+    WallService.update(Post(id = 2, text = "Вместо третьего поста", idOwner = 22, date = 1500))
 
     println("${WallService.get(0).id} ${WallService.get(0).text} ${WallService.get(0).idOwner} ${WallService.get(0).date}")
     println("${WallService.get(1).id} ${WallService.get(1).text} ${WallService.get(1).idOwner} ${WallService.get(1).date}")
