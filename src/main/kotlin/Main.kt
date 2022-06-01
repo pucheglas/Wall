@@ -123,4 +123,13 @@ fun main() {
     println("${WallService.get(3).id} ${WallService.get(3).text} ${WallService.get(3).idOwner} ${WallService.get(3).date}")
     println("${WallService.get(4).id} ${WallService.get(4).text} ${WallService.get(4).idOwner} ${WallService.get(4).date}")
     println("${WallService.get(5).id} ${WallService.get(5).text} ${WallService.get(5).idOwner} ${WallService.get(5).date}")
+
+//    val attachment1: Attachment = PhotoAttachment(photo = Photo())
+//    println(attachment1.typeAttachment)
+
+
+    println(AudioAttachment(audio = Audio()).typeAttachment)
+    println(PresentAttachment(present = Present(thumb256 = "", thumb96 = "", thumb48 = "")).typeAttachment)
+    println(PhotoAttachment(photo = Photo()).typeAttachment)
 }
+

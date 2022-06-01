@@ -1,10 +1,10 @@
 package ru.netology.data
 
-abstract class Attachment(
+sealed class Attachment(
     val typeAttachment: String,
 )
 
-class Photo(
+data class Photo(
     val idPhoto: Int = 0,
     val idAlbumPhoto: Int = 0,
     val idOwnerPhoto: Int = 0,
@@ -15,37 +15,35 @@ class Photo(
     val heightPhoto: Int = 16
 )
 
-class PhotoAttachment(val photo: Photo) : Attachment("photo") {
+data class PhotoAttachment(val photo: Photo) : Attachment("photo")
 
-}
-
-class Audio(
+data class Audio(
     val idAudio: Int = 0,
     val idOwnerAudio: Int = 0,
     val artistAudio: String = "New artist",
     val titleAudio: String = "New title",
     val durationAudio: Int = 0,
     val urlMP3Audio: String = "",
-    val idLyricsAudio: Int?,
-    val idAlbumAudio: Int?,
+    val idLyricsAudio: Int = 0,
+    val idAlbumAudio: Int = 0,
     val idGenreAudio: Int = 0,
     val dateAudio: Int = 0,
     val noSearchAudio: Boolean = true,
     val isHQAudio: Boolean = true
 )
 
-class AudioAttachment(val audio: Audio): Attachment("audio")
+data class AudioAttachment(val audio: Audio): Attachment("audio")
 
-class Gift(
-    val idGift: Int = 0,
+data class Present(
+    val idPresent: Int = 0,
     val thumb256: String?,
     val thumb96: String?,
     val thumb48: String?
 )
 
-class GiftAttachment(val gift: Gift): Attachment("gift")
+data class PresentAttachment(val present: Present): Attachment("present")
 
-class Files(
+data class Files(
     val idFiles: Int = 0,
     val idOwnerFiles: Int = 0,
     val titleFiles: String = "New File",
@@ -56,9 +54,9 @@ class Files(
     val typeFiles: Int = 8
 )
 
-class FilesAttachment(val files: Files): Attachment("files")
+data class FilesAttachment(val files: Files): Attachment("files")
 
-class Graffiti(
+data class Graffiti(
     val idGraffiti: Int = 0,
     val idOwnerGraffiti: Int = 0,
     val urlGraffiti: String = "",
@@ -66,4 +64,4 @@ class Graffiti(
     val heightGraffiti: Int = 16
 )
 
-class GraffitiAttachment(val graffiti: Graffiti): Attachment("graffiti")
+data class GraffitiAttachment(val graffiti: Graffiti): Attachment("graffiti")
