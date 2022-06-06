@@ -1,102 +1,7 @@
 package ru.netology.data
 
-data class Comments(
-    val count: Int = 0,
-    val canPost: Boolean = true,
-    val groupCanPost: Boolean = true,
-    val canClose: Boolean = true,
-    val canOpen: Boolean = true
-)
 
-data class Copyright(
-    val id: Int = 1,
-    val link: String = "Москва",
-    val name: String = "Просвещение",
-    val type: String = "Автор"
-)
 
-data class Likes(
-    val count: Int = 0,
-    val userLikes: Boolean = false,
-    val canLikes: Boolean = true,
-    val canPublish: Boolean = true
-)
-
-data class Reposts(
-    val count: Int = 0,
-    val userReposted: Boolean = false
-)
-
-data class Views(
-    val count: Int = 0
-)
-
-data class PostType(
-    val postType: String = "post"
-)
-
-data class Donut(
-    val isDonut: Boolean = false,
-    val paidDuration: Int = 3_600,
-    val placeholder: String = "Нет подписок",
-    val canPublishFreeCopy: Boolean = true,
-    val editMode: String = "all"
-)
-
-data class Post(
-    val id: Int = 0,
-    val idOwner: Int = 1,
-    val idAuthor: Int = 1,
-    val date: Int = 3600,
-    val text: String = "New post",
-    val replyOwner: Int = 1,
-    val idReplyPost: Int = 1,
-    val friendsOnly: Boolean = false,
-    val comments: Comments? = Comments(),
-    val copyright: Copyright? = Copyright(),
-    val likes: Likes = Likes(),
-    val reposts: Reposts = Reposts(),
-    val views: Views = Views(),
-    val postType: PostType = PostType(),
-    val idSigner: Int = 1,
-    val canPin: Boolean = true,
-    val canDelete: Boolean = true,
-    val canEdit: Boolean = true,
-    val isPinned: Boolean = false,
-    val markedAsAds: Boolean = false,
-    val isFavorite: Boolean = false,
-    val donut: Donut? = Donut(),
-    val idPostponed: Boolean = false,
-    var attachments: Array<Attachment>? = emptyArray()
-)
-
-object WallService {
-    private var posts = emptyArray<Post>()
-
-    fun add(post: Post): Post {
-        posts += post
-        posts[posts.size - 1] = post.copy(id = posts.size)
-        return posts.last()
-    }
-
-    fun get(id: Int): Post {
-        return posts[id]
-    }
-
-    fun update(post: Post): Boolean {
-
-        if (post.id > posts.size) {
-            println("Пост ${post.id} не существует")
-            return false
-        } else {
-            val saveIdOwner = posts[post.id].idOwner
-            val saveDate = posts[post.id].date
-            posts[post.id] = post.copy(id = post.id + 1, idOwner = saveIdOwner, date = saveDate)
-            println("Пост ${post.id} успешно изменен")
-            return true
-        }
-    }
-}
 
 fun main() {
 
@@ -124,12 +29,17 @@ fun main() {
     println("${WallService.get(4).id} ${WallService.get(4).text} ${WallService.get(4).idOwner} ${WallService.get(4).date}")
     println("${WallService.get(5).id} ${WallService.get(5).text} ${WallService.get(5).idOwner} ${WallService.get(5).date}")
 
-//    val attachment1: Attachment = PhotoAttachment(photo = Photo())
-//    println(attachment1.typeAttachment)
-
-
     println(AudioAttachment(audio = Audio()).typeAttachment)
     println(PresentAttachment(present = Present(thumb256 = "", thumb96 = "", thumb48 = "")).typeAttachment)
     println(PhotoAttachment(photo = Photo()).typeAttachment)
+
+    val comment1 = WallService.creatComment(postId = 2, Comment(textComment = "Комментарий к посту"))
+    println("comment id = ${comment1.idComment}, text = ${comment1.textComment} ${comment1.idPostComment}")
+
+    val comment2 = WallService.creatComment(postId = 5, Comment(textComment = "Комментарий к посту"))
+    println("comment id = ${comment2.idComment}, text = ${comment2.textComment} ${comment2.idPostComment}")
+
+    val comment3 = WallService.creatComment(postId = 10, Comment(textComment = "Комментарий к посту"))
+
 }
 
