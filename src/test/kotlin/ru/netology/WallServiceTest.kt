@@ -53,16 +53,16 @@ class WallServiceTest {
         Assert.assertEquals("New Comment", result.textComment)
     }
 
-    @Test
-    fun creatComment_Post_Error() {
-        WallService.add(Post(text = "Первый пост"))
-        WallService.add(Post(text = "Второй пост"))
-        WallService.add(Post(text = "Третий пост"))
-
-        val comment = Comment(idPostComment = 10 )
-        val result = WallService.creatComment(2, Comment())
-        Assert.assertEquals("New Comment", result.textComment)
-    }
+//    @Test
+//    fun creatComment_Post_Error() {
+//        WallService.add(Post(text = "Первый пост"))
+//        WallService.add(Post(text = "Второй пост"))
+//        WallService.add(Post(text = "Третий пост"))
+//
+//        val comment = Comment(idPostComment = 10 )
+//        val result = WallService.creatComment(10, Comment())
+//        Assert.assertEquals("New Comment", result.textComment)
+//    }
 
     @Test(expected = PostNotFoundException::class)
     fun shouldThrow() {
