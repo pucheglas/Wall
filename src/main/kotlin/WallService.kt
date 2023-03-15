@@ -20,7 +20,6 @@ object WallService {
     }
 
     fun update(post: Post): Boolean {
-
         if (post.id > posts.size) {
             println("Пост ${post.id} не существует")
             return false
@@ -28,10 +27,29 @@ object WallService {
             val saveIdOwner = posts[post.id].idOwner
             val saveDate = posts[post.id].date
             posts[post.id] = post.copy(id = post.id + 1, idOwner = saveIdOwner, date = saveDate)
-            println("Пост ${post.id} успешно изменен")
+            println("Пост ${(post.id)+1} успешно изменен")
             return true
         }
     }
+
+    fun delete(post: Post): Boolean {
+        if (post.id > posts.size) {
+            println("Пост ${post.id} не существует")
+            return false
+        } else {
+            if (posts[post.id].postDelete) {
+                println("Пост ${(post.id) + 1} уже был удален")
+                return false
+            } else {
+                val saveIdOwner = posts[post.id].idOwner
+                val saveDate = posts[post.id].date
+                posts[post.id] = post.copy(id = post.id + 1, postDelete = true, idOwner = saveIdOwner, date = saveDate)
+                println("Пост ${(post.id) + 1} удален")
+                return true
+            }
+        }
+    }
+
 
     @Throws(PostNotFoundException::class)
     fun creatComment(postId: Int, comment: Comment): Comment {

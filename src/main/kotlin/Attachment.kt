@@ -12,7 +12,7 @@ data class Photo(
     val textPhoto: String = "New photo",
     val datePhoto: Int = 0,
     val widthPhoto: Int = 16,
-    val heightPhoto: Int = 16
+    val heightPhoto: Int = 16,
 )
 
 data class PhotoAttachment(val photo: Photo) : Attachment("photo")

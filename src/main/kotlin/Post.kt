@@ -45,6 +45,7 @@ data class DonutPost(
 
 data class Post(
     val id: Int = 0,
+    var postDelete: Boolean = false,
     val idOwner: Int = 1,
     val idAuthor: Int = 1,
     val date: Int = 3600,
