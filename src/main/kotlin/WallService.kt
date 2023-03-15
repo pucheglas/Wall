@@ -38,7 +38,7 @@ object WallService {
             return false
         } else {
             if (posts[post.id].postDelete) {
-                println("Пост ${(post.id) + 1} уже был удален")
+                println("Пост ${(post.id) + 1} уже был удален ")
                 return false
             } else {
                 val saveIdOwner = posts[post.id].idOwner
