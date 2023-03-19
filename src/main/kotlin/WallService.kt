@@ -8,7 +8,8 @@ class PostNotFoundException(message: String): RuntimeException(message)
 object WallService {
     private var posts = emptyArray<Post>()
     private var comments = emptyArray<Comment>()
-    private var noPost: Post =Post(text = "Пустой пост")
+    private var noPost: Post = Post(text = "Пустой пост")
+    private var noComment: Comment = Comment(textComment = "Пустой коммент")
 
     fun add(post: Post): Post {
         posts += post
@@ -78,12 +79,17 @@ object WallService {
     @Throws(PostNotFoundException::class)
     fun creatComment(postId: Int, comment: Comment): Comment {
         if (postId > posts.size) {
-//            println("Пост $postId не существует") // без исключения
-            throw PostNotFoundException("Пост $postId не существует")
+            println("Пост $postId не существует") // без исключения
+            throw PostNotFoundException("Пост $postId не существует или удален")
         } else {
-            comments += comment
-            comments[comments.size - 1] = comment.copy(idComment = comments.size, idPostComment = postId)
-            return comments.last()
+            if (posts[postId].postDelete){
+                println("Пост удален. Доступа к коментариям нет")
+                return noComment
+            } else {
+                comments += comment
+                comments[comments.size - 1] = comment.copy(idComment = comments.size, idPostComment = postId)
+                return comments.last()
+            }
         }
     }
 }

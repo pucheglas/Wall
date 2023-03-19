@@ -20,7 +20,6 @@ fun main() {
     println("${WallService.get(3).id} ${WallService.get(3).text} ${WallService.get(3).idOwner} ${WallService.get(3).date}")
     println("${WallService.get(4).id} ${WallService.get(4).text} ${WallService.get(4).idOwner} ${WallService.get(4).date}")
     println("${WallService.get(5).id} ${WallService.get(5).text} ${WallService.get(5).idOwner} ${WallService.get(5).date}")
-//    println("${WallService.get(6).id} ${WallService.get(6).text} ${WallService.get(6).idOwner} ${WallService.get(6).date}")
 
     println("\n*** Изменение постов")
     WallService.update(Post(id = 4, text = "Вместо пятого поста", idOwner = 11, date = 150000))
@@ -53,12 +52,21 @@ fun main() {
     println("\n*** Удаление постов ")
 //    println("${WallService.get(2).id} ${WallService.get(2).postDelete} ${WallService.get(2).idOwner} ${WallService.get(2).date}")
     WallService.delete(Post(id = 2))
-    println("${WallService.get(2).id} ${WallService.get(2).postDelete} ${WallService.get(2).text}")
+//    println("${WallService.get(2).id} ${WallService.get(2).postDelete} ${WallService.get(2).text}")
     WallService.delete(Post(id = 2))
     WallService.delete(Post(id = 12))
+
+    val comment4 = WallService.creatComment(postId = 2, Comment(textComment = "Комментарий к посту"))
+    println("comment id = ${comment4.idComment}, text = ${comment4.textComment} ${comment4.idPostComment}")
+
 
     println("\nВосстановление поста")
     WallService.undelete(Post(id = 2))
     WallService.undelete(Post(id = 5))
     WallService.undelete(Post(id = 11))
+
+    val comment5 = WallService.creatComment(postId = 2, Comment(textComment = "Новые комментарии к посту 2 после восстановления"))
+    println("comment id = ${comment5.idComment}, text = ${comment5.textComment} ${comment5.idPostComment}")
+    println("comment id = ${comment1.idComment}, text = ${comment1.textComment} ${comment1.idPostComment} после восстановления")
+
 }
