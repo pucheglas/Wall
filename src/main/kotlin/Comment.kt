@@ -13,6 +13,7 @@ data class ThreadComment(
 
 data class Comment(
     val idComment: Int = 0,
+    val commentDelete: Boolean = false,
     val idPostComment: Int = 0,
     val idFromAutor: Int = 0,
     val dateComment: Int = 0,

@@ -40,11 +40,14 @@ fun main() {
     println(PhotoAttachment(photo = Photo()).typeAttachment)
 
     println("\n*** Комментарии ")
-    val comment1 = WallService.creatComment(postId = 2, Comment(textComment = "Комментарий к посту"))
-    println("comment id = ${comment1.idComment}, text = ${comment1.textComment} ${comment1.idPostComment}")
-
-    val comment2 = WallService.creatComment(postId = 5, Comment(textComment = "Комментарий к посту"))
-    println("comment id = ${comment2.idComment}, text = ${comment2.textComment} ${comment2.idPostComment}")
+    WallService.creatComment(Comment(idPostComment = 2, textComment = "Комментарий к посту 2"))
+    println("Коммент ${WallService.getComment(0).idComment}" +
+            " к посту ${WallService.getComment(0).idPostComment}" +
+            " ${WallService.getComment(0).commentDelete}")
+    WallService.creatComment(Comment(idPostComment = 5, textComment = "Комментарий к посту 5"))
+    println("Коммент ${WallService.getComment(1).idComment}" +
+            " к посту ${WallService.getComment(1).idPostComment}" +
+            " ${WallService.getComment(1).commentDelete}")
 
 //    println("Обработка исключения")
 //    val comment3 = WallService.creatComment(postId = 10, Comment(textComment = "Комментарий к посту"))
@@ -56,8 +59,8 @@ fun main() {
     WallService.delete(Post(id = 2))
     WallService.delete(Post(id = 12))
 
-    val comment4 = WallService.creatComment(postId = 2, Comment(textComment = "Комментарий к посту"))
-    println("comment id = ${comment4.idComment}, text = ${comment4.textComment} ${comment4.idPostComment}")
+    WallService.getComment(0)
+//    println("comment id = ${comment4.idComment}, text = ${comment4.textComment} ${comment4.idPostComment}")
 
 
     println("\nВосстановление поста")
@@ -65,8 +68,12 @@ fun main() {
     WallService.undelete(Post(id = 5))
     WallService.undelete(Post(id = 11))
 
-    val comment5 = WallService.creatComment(postId = 2, Comment(textComment = "Новые комментарии к посту 2 после восстановления"))
-    println("comment id = ${comment5.idComment}, text = ${comment5.textComment} ${comment5.idPostComment}")
-    println("comment id = ${comment1.idComment}, text = ${comment1.textComment} ${comment1.idPostComment} после восстановления")
+    WallService.getComment(0)
+    println("Коммент ${WallService.getComment(0).idComment}" +
+            " к посту ${WallService.getComment(0).idPostComment}" +
+            " ${WallService.getComment(0).commentDelete}")
 
+    println("\n*** Удаление комментов ")
+//    WallService.deleteComment(comment2)
+//    println("comment id = ${comment2.idComment}, text = ${comment2.textComment} ${comment2.idPostComment} ${comment2.commentDelete}")
 }

@@ -77,18 +77,46 @@ object WallService {
 
 
     @Throws(PostNotFoundException::class)
-    fun creatComment(postId: Int, comment: Comment): Comment {
-        if (postId > posts.size) {
-            println("Пост $postId не существует") // без исключения
-            throw PostNotFoundException("Пост $postId не существует или удален")
+    fun creatComment( comment: Comment): Comment {
+        if (comment.idPostComment > posts.size) {
+            println("Пост ${comment.idPostComment} не существует") // без исключения
+            throw PostNotFoundException("Пост ${comment.idPostComment} не существует или удален")
         } else {
-            if (posts[postId].postDelete){
+            if (posts[comment.idPostComment].postDelete){
                 println("Пост удален. Доступа к коментариям нет")
                 return noComment
             } else {
                 comments += comment
-                comments[comments.size - 1] = comment.copy(idComment = comments.size, idPostComment = postId)
+                comments[comments.size - 1] = comment.copy(idComment = comments.size, idPostComment = comment.idPostComment)
                 return comments.last()
+            }
+        }
+    }
+
+    fun getComment(idComment: Int): Comment {
+        if (posts[comments[idComment].idPostComment].postDelete) {
+            println("Пост ${posts[comments[idComment].idPostComment].id-1} не доступен, т.к. был удален")
+            return noComment
+        } else {
+            return comments[idComment]
+        }
+    }
+
+    fun deleteComment(comment: Comment): Boolean{
+        if (comment.idComment > comments.size) {
+            println("Пост ${comment.idComment} не существует")
+            return false
+        } else {
+            if (comments[comment.idComment].commentDelete) {
+                println("Пост ${(comment.idComment) } уже был удален ")
+                return false
+            } else {
+                val saveIdAutor = comments[comment.idComment].idFromAutor
+                val savePost = comments[comment.idComment].idPostComment
+                comments[comment.idComment] = comment.copy(idComment = comment.idComment + 0,
+                    commentDelete = true, idFromAutor = saveIdAutor, idPostComment = savePost)
+                println("Коммент ${(comment.idComment)} удален")
+                return true
             }
         }
     }
