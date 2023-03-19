@@ -8,6 +8,7 @@ class PostNotFoundException(message: String): RuntimeException(message)
 object WallService {
     private var posts = emptyArray<Post>()
     private var comments = emptyArray<Comment>()
+    private var noPost: Post =Post(text = "Пустой пост")
 
     fun add(post: Post): Post {
         posts += post
@@ -16,7 +17,12 @@ object WallService {
     }
 
     fun get(id: Int): Post {
-        return posts[id]
+        if (posts[id].postDelete) {
+            println("Пост ${posts[id].id-1} не доступен, т.к. был удален")
+            return noPost
+        } else {
+            return posts[id]
+        }
     }
 
     fun update(post: Post): Boolean {
@@ -38,13 +44,31 @@ object WallService {
             return false
         } else {
             if (posts[post.id].postDelete) {
-                println("Пост ${(post.id) + 1} уже был удален ")
+                println("Пост ${(post.id) } уже был удален ")
                 return false
             } else {
                 val saveIdOwner = posts[post.id].idOwner
                 val saveDate = posts[post.id].date
                 posts[post.id] = post.copy(id = post.id + 1, postDelete = true, idOwner = saveIdOwner, date = saveDate)
-                println("Пост ${(post.id) + 1} удален")
+                println("Пост ${(post.id)} удален")
+                return true
+            }
+        }
+    }
+
+    fun undelete (post: Post): Boolean {
+        if (post.id > posts.size) {
+            println("Пост ${post.id} не существует")
+            return false
+        } else {
+            if (!posts[post.id].postDelete) {
+                println("Пост ${(post.id) } не был удален ")
+                return false
+            } else {
+                val saveIdOwner = posts[post.id].idOwner
+                val saveDate = posts[post.id].date
+                posts[post.id] = post.copy(id = post.id + 1, postDelete = false, idOwner = saveIdOwner, date = saveDate)
+                println("Пост ${(post.id)} восстановлен")
                 return true
             }
         }
