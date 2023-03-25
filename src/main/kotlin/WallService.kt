@@ -11,6 +11,18 @@ object WallService {
     private var noPost: Post = Post(text = "Пустой пост")
     private var noComment: Comment = Comment(textComment = "Пустой коммент")
 
+
+    fun printAllPost (){
+        var ind: Int = 0
+        var indEnd = posts.size-1
+        while(ind <= indEnd){
+            if (posts[ind].postDelete) println("Пост удален")
+            else {println("${get(ind).id} ${get(ind).text} ${get(ind).idOwner} ${get(ind).date}")
+            }
+        ind++
+        }
+    }
+
     fun add(post: Post): Post {
         posts += post
         posts[posts.size - 1] = post.copy(id = posts.size)
@@ -50,7 +62,7 @@ object WallService {
             } else {
                 val saveIdOwner = posts[post.id].idOwner
                 val saveDate = posts[post.id].date
-                posts[post.id] = post.copy(id = post.id + 1, postDelete = true, idOwner = saveIdOwner, date = saveDate)
+                posts[post.id] = post.copy(id = post.id - 1, postDelete = true, idOwner = saveIdOwner, date = saveDate)
                 println("Пост ${(post.id)} удален")
                 return true
             }
@@ -83,7 +95,7 @@ object WallService {
             throw PostNotFoundException("Пост ${comment.idPostComment} не существует или удален")
         } else {
             if (posts[comment.idPostComment].postDelete){
-                println("Пост удален. Доступа к коментариям нет")
+                println("Пост удален. Доступа к комментариям нет")
                 return noComment
             } else {
                 comments += comment
@@ -102,8 +114,22 @@ object WallService {
         }
     }
 
-    fun deleteComment(comment: Comment): Boolean{
+    fun updateComment(comment: Comment): Boolean {
         if (comment.idComment > comments.size) {
+            println("Пост ${comment.idComment} не существует")
+            return false
+        } else {
+            val saveIdAutor = comments[comment.idComment].idFromAutor
+            val savePost = comments[comment.idComment].idPostComment
+            comments[comment.idComment] = comment.copy(idComment = comment.idComment + 1,
+                                            idPostComment = savePost, idFromAutor = saveIdAutor)
+            println("Коммент ${(comment.idComment)+1} успешно изменен")
+            return true
+        }
+    }
+
+    fun deleteComment(comment: Comment): Boolean{
+        if (comment.idComment >= comments.size) {
             println("Пост ${comment.idComment} не существует")
             return false
         } else {
@@ -113,9 +139,28 @@ object WallService {
             } else {
                 val saveIdAutor = comments[comment.idComment].idFromAutor
                 val savePost = comments[comment.idComment].idPostComment
-                comments[comment.idComment] = comment.copy(idComment = comment.idComment + 0,
+                comments[comment.idComment] = comment.copy(idComment = comment.idComment,
                     commentDelete = true, idFromAutor = saveIdAutor, idPostComment = savePost)
                 println("Коммент ${(comment.idComment)} удален")
+                return true
+            }
+        }
+    }
+
+    fun unDeleteComment (comment: Comment): Boolean {
+        if (comment.idComment > comments.size) {
+            println("Коммент ${comment.idComment} не существует")
+            return false
+        } else {
+            if (!comments[comment.idComment].commentDelete) {
+                println("Коммент ${(comment.idComment) } не был удален ")
+                return false
+            } else {
+                val saveIdAutor = comments[comment.idComment].idFromAutor
+                val savePost = comments[comment.idComment].idPostComment
+                comments[comment.idComment] = comment.copy(idComment = comment.idComment + 0,
+                    commentDelete = false, idFromAutor = saveIdAutor, idPostComment = savePost)
+                println("Коммент ${(comment.idComment)} восстановлен")
                 return true
             }
         }

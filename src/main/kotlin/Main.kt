@@ -1,8 +1,6 @@
 package ru.netology.data
 
 
-
-
 fun main() {
 
 //    println("*** Ввод данных")
@@ -14,66 +12,64 @@ fun main() {
     WallService.add(Post(text = "Шестой пост"))
 
     println("\n*** Вывод постов")
-    println("${WallService.get(0).id} ${WallService.get(0).text} ${WallService.get(0).idOwner} ${WallService.get(0).date}")
-    println("${WallService.get(1).id} ${WallService.get(1).text} ${WallService.get(1).idOwner} ${WallService.get(1).date}")
-    println("${WallService.get(2).id} ${WallService.get(2).text} ${WallService.get(2).idOwner} ${WallService.get(2).date}")
-    println("${WallService.get(3).id} ${WallService.get(3).text} ${WallService.get(3).idOwner} ${WallService.get(3).date}")
-    println("${WallService.get(4).id} ${WallService.get(4).text} ${WallService.get(4).idOwner} ${WallService.get(4).date}")
-    println("${WallService.get(5).id} ${WallService.get(5).text} ${WallService.get(5).idOwner} ${WallService.get(5).date}")
+    WallService.printAllPost()
 
     println("\n*** Изменение постов")
     WallService.update(Post(id = 4, text = "Вместо пятого поста", idOwner = 11, date = 150000))
-    WallService.update(Post(id = 2, text = "Вместо третьего поста", idOwner = 22, date = 1500))
+    WallService.update(Post(id = 1, text = "Вместо второго поста", idOwner = 22, date = 1500))
 
     println("\n*** Вывод измененных постов")
-    println("${WallService.get(0).id} ${WallService.get(0).text} ${WallService.get(0).idOwner} ${WallService.get(0).date}")
-    println("${WallService.get(1).id} ${WallService.get(1).text} ${WallService.get(1).idOwner} ${WallService.get(1).date}")
-    println("${WallService.get(2).id} ${WallService.get(2).text} ${WallService.get(2).idOwner} ${WallService.get(2).date}")
-    println("${WallService.get(3).id} ${WallService.get(3).text} ${WallService.get(3).idOwner} ${WallService.get(3).date}")
-    println("${WallService.get(4).id} ${WallService.get(4).text} ${WallService.get(4).idOwner} ${WallService.get(4).date}")
-    println("${WallService.get(5).id} ${WallService.get(5).text} ${WallService.get(5).idOwner} ${WallService.get(5).date}")
+    WallService.printAllPost()
 
-
-    println("\n*** Attachment ")
-    println(AudioAttachment(audio = Audio()).typeAttachment)
-    println(PresentAttachment(present = Present(thumb256 = "", thumb96 = "", thumb48 = "")).typeAttachment)
-    println(PhotoAttachment(photo = Photo()).typeAttachment)
+//    println("\n*** Attachment ")
+//    println(AudioAttachment(audio = Audio()).typeAttachment)
+//    println(PresentAttachment(present = Present(thumb256 = "", thumb96 = "", thumb48 = "")).typeAttachment)
+//    println(PhotoAttachment(photo = Photo()).typeAttachment)
 
     println("\n*** Комментарии ")
     WallService.creatComment(Comment(idPostComment = 2, textComment = "Комментарий к посту 2"))
     println("Коммент ${WallService.getComment(0).idComment}" +
             " к посту ${WallService.getComment(0).idPostComment}" +
-            " ${WallService.getComment(0).commentDelete}")
+            " ${WallService.getComment(0).textComment}")
     WallService.creatComment(Comment(idPostComment = 5, textComment = "Комментарий к посту 5"))
     println("Коммент ${WallService.getComment(1).idComment}" +
             " к посту ${WallService.getComment(1).idPostComment}" +
-            " ${WallService.getComment(1).commentDelete}")
+            " ${WallService.getComment(1).textComment}")
+    WallService.creatComment(Comment(idPostComment = 2, textComment = "Второй комментарий к посту 2"))
+    println("Коммент ${WallService.getComment(2).idComment}" +
+            " к посту ${WallService.getComment(2).idPostComment}" +
+            " ${WallService.getComment(2).textComment}")
 
 //    println("Обработка исключения")
 //    val comment3 = WallService.creatComment(postId = 10, Comment(textComment = "Комментарий к посту"))
 
     println("\n*** Удаление постов ")
-//    println("${WallService.get(2).id} ${WallService.get(2).postDelete} ${WallService.get(2).idOwner} ${WallService.get(2).date}")
-    WallService.delete(Post(id = 2))
-//    println("${WallService.get(2).id} ${WallService.get(2).postDelete} ${WallService.get(2).text}")
-    WallService.delete(Post(id = 2))
+    WallService.delete(Post(id = 3))
+    WallService.delete(Post(id = 3))
     WallService.delete(Post(id = 12))
-
-    WallService.getComment(0)
-//    println("comment id = ${comment4.idComment}, text = ${comment4.textComment} ${comment4.idPostComment}")
-
+    WallService.printAllPost()
 
     println("\nВосстановление поста")
-    WallService.undelete(Post(id = 2))
+    WallService.undelete(Post(id = 3))
     WallService.undelete(Post(id = 5))
     WallService.undelete(Post(id = 11))
 
     WallService.getComment(0)
     println("Коммент ${WallService.getComment(0).idComment}" +
             " к посту ${WallService.getComment(0).idPostComment}" +
-            " ${WallService.getComment(0).commentDelete}")
+            " ${WallService.getComment(0).commentDelete}" +
+            " ${WallService.getComment(0).textComment}")
+
+    WallService.updateComment(Comment(2, textComment = "Вместо второго коммента"))
+    println("Коммент ${WallService.getComment(2).idComment}" +
+            " к посту ${WallService.getComment(2).idPostComment}" +
+            " ${WallService.getComment(2).textComment}")
 
     println("\n*** Удаление комментов ")
-//    WallService.deleteComment(comment2)
-//    println("comment id = ${comment2.idComment}, text = ${comment2.textComment} ${comment2.idPostComment} ${comment2.commentDelete}")
+    WallService.deleteComment(Comment(idComment = 1))
+
+    WallService.unDeleteComment(Comment(idComment = 1))
+    println("Коммент ${WallService.getComment(0).idComment}" +
+            " к посту ${WallService.getComment(0).idPostComment}" +
+            " ${WallService.getComment(0).textComment}")
 }
