@@ -2,7 +2,9 @@ package ru.netology
 
 import org.junit.Assert
 import org.junit.Test
+import ru.netology.data.Comment
 import ru.netology.data.Post
+import ru.netology.data.PostNotFoundException
 import ru.netology.data.WallService
 
 class WallServiceTest {
@@ -38,5 +40,33 @@ class WallServiceTest {
 
         println(post)
         Assert.assertEquals(false, WallService.update(post))
+    }
+
+    @Test
+    fun creatComment_Post_Normal() {
+        WallService.add(Post(text = "Первый пост"))
+        WallService.add(Post(text = "Второй пост"))
+        WallService.add(Post(text = "Третий пост"))
+
+        val comment = Comment(idPostComment = 1 )
+        val result = WallService.creatComment(2, Comment())
+        Assert.assertEquals("New Comment", result.textComment)
+    }
+
+//    @Test
+//    fun creatComment_Post_Error() {
+//        WallService.add(Post(text = "Первый пост"))
+//        WallService.add(Post(text = "Второй пост"))
+//        WallService.add(Post(text = "Третий пост"))
+//
+//        val comment = Comment(idPostComment = 10 )
+//        val result = WallService.creatComment(10, Comment())
+//        Assert.assertEquals("New Comment", result.textComment)
+//    }
+
+    @Test(expected = PostNotFoundException::class)
+    fun shouldThrow() {
+        // здесь код с вызовом функции, которая должна выкинуть PostNotFoundException
+        WallService.creatComment(postId = 10, Comment(textComment = "Комментарий к посту"))
     }
 }

@@ -1,104 +1,9 @@
 package ru.netology.data
 
-data class Comments(
-    val count: Int = 0,
-    val canPost: Boolean = true,
-    val groupCanPost: Boolean = true,
-    val canClose: Boolean = true,
-    val canOpen: Boolean = true
-)
-
-data class Copyright(
-    val id: Int = 1,
-    val link: String = "Москва",
-    val name: String = "Просвещение",
-    val type: String = "Автор"
-)
-
-data class Likes(
-    val count: Int = 0,
-    val userLikes: Boolean = false,
-    val canLikes: Boolean = true,
-    val canPublish: Boolean = true
-)
-
-data class Reposts(
-    val count: Int = 0,
-    val userReposted: Boolean = false
-)
-
-data class Views(
-    val count: Int = 0
-)
-
-data class PostType(
-    val postType: String = "post"
-)
-
-data class Donut(
-    val isDonut: Boolean = false,
-    val paidDuration: Int = 3_600,
-    val placeholder: String = "Нет подписок",
-    val canPublishFreeCopy: Boolean = true,
-    val editMode: String = "all"
-)
-
-data class Post(
-    val id: Int = 0,
-    val idOwner: Int = 1,
-    val idAuthor: Int = 1,
-    val date: Int = 3600,
-    val text: String = "New post",
-    val replyOwner: Int = 1,
-    val idReplyPost: Int = 1,
-    val friendsOnly: Boolean = false,
-    val comments: Comments? = Comments(),
-    val copyright: Copyright? = Copyright(),
-    val likes: Likes = Likes(),
-    val reposts: Reposts = Reposts(),
-    val views: Views = Views(),
-    val postType: PostType = PostType(),
-    val idSigner: Int = 1,
-    val canPin: Boolean = true,
-    val canDelete: Boolean = true,
-    val canEdit: Boolean = true,
-    val isPinned: Boolean = false,
-    val markedAsAds: Boolean = false,
-    val isFavorite: Boolean = false,
-    val donut: Donut? = Donut(),
-    val idPostponed: Boolean = false
-)
-
-object WallService {
-    private var posts = emptyArray<Post>()
-
-    fun add(post: Post): Post {
-        posts += post
-        posts[posts.size - 1] = post.copy(id = posts.size)
-        return posts.last()
-    }
-
-    fun get(id: Int): Post {
-        return posts[id]
-    }
-
-    fun update(post: Post): Boolean {
-
-        if (post.id > posts.size) {
-            println("Пост ${post.id} не существует")
-            return false
-        } else {
-            val saveIdOwner = posts[post.id].idOwner
-            val saveDate = posts[post.id].date
-            posts[post.id] = post.copy(id = post.id + 1, idOwner = saveIdOwner, date = saveDate)
-            println("Пост ${post.id} успешно изменен")
-            return true
-        }
-    }
-}
 
 fun main() {
 
+//    println("*** Ввод данных")
     WallService.add(Post(copyright = Copyright(link = "Питер"), text = "Первый пост"))
     WallService.add(Post(text = "Второй пост", idOwner = 2))
     WallService.add(Post(text = "Третий пост", date = 72000, idOwner = 33))
@@ -106,19 +11,65 @@ fun main() {
     WallService.add(Post(text = "Пятый пост"))
     WallService.add(Post(text = "Шестой пост"))
 
-    println("${WallService.get(0).id} ${WallService.get(0).text} ${WallService.get(0).idOwner} ${WallService.get(0).date}")
-    println("${WallService.get(1).id} ${WallService.get(1).text} ${WallService.get(1).idOwner} ${WallService.get(1).date}")
-    println("${WallService.get(2).id} ${WallService.get(2).text} ${WallService.get(2).idOwner} ${WallService.get(2).date}")
-    println("${WallService.get(3).id} ${WallService.get(3).text} ${WallService.get(3).idOwner} ${WallService.get(3).date}")
-    println("${WallService.get(4).id} ${WallService.get(4).text} ${WallService.get(4).idOwner} ${WallService.get(4).date}")
-    println("${WallService.get(5).id} ${WallService.get(5).text} ${WallService.get(5).idOwner} ${WallService.get(5).date}")
+    println("\n*** Вывод постов")
+    WallService.printAllPost()
 
+    println("\n*** Изменение постов")
     WallService.update(Post(id = 4, text = "Вместо пятого поста", idOwner = 11, date = 150000))
+    WallService.update(Post(id = 1, text = "Вместо второго поста", idOwner = 22, date = 1500))
 
-    println("${WallService.get(0).id} ${WallService.get(0).text} ${WallService.get(0).idOwner} ${WallService.get(0).date}")
-    println("${WallService.get(1).id} ${WallService.get(1).text} ${WallService.get(1).idOwner} ${WallService.get(1).date}")
-    println("${WallService.get(2).id} ${WallService.get(2).text} ${WallService.get(2).idOwner} ${WallService.get(2).date}")
-    println("${WallService.get(3).id} ${WallService.get(3).text} ${WallService.get(3).idOwner} ${WallService.get(3).date}")
-    println("${WallService.get(4).id} ${WallService.get(4).text} ${WallService.get(4).idOwner} ${WallService.get(4).date}")
-    println("${WallService.get(5).id} ${WallService.get(5).text} ${WallService.get(5).idOwner} ${WallService.get(5).date}")
+    println("\n*** Вывод измененных постов")
+    WallService.printAllPost()
+
+//    println("\n*** Attachment ")
+//    println(AudioAttachment(audio = Audio()).typeAttachment)
+//    println(PresentAttachment(present = Present(thumb256 = "", thumb96 = "", thumb48 = "")).typeAttachment)
+//    println(PhotoAttachment(photo = Photo()).typeAttachment)
+
+    println("\n*** Комментарии ")
+    WallService.creatComment(Comment(idPostComment = 2, textComment = "Комментарий к посту 2"))
+    println("Коммент ${WallService.getComment(0).idComment}" +
+            " к посту ${WallService.getComment(0).idPostComment}" +
+            " ${WallService.getComment(0).textComment}")
+    WallService.creatComment(Comment(idPostComment = 5, textComment = "Комментарий к посту 5"))
+    println("Коммент ${WallService.getComment(1).idComment}" +
+            " к посту ${WallService.getComment(1).idPostComment}" +
+            " ${WallService.getComment(1).textComment}")
+    WallService.creatComment(Comment(idPostComment = 2, textComment = "Второй комментарий к посту 2"))
+    println("Коммент ${WallService.getComment(2).idComment}" +
+            " к посту ${WallService.getComment(2).idPostComment}" +
+            " ${WallService.getComment(2).textComment}")
+
+//    println("Обработка исключения")
+//    val comment3 = WallService.creatComment(postId = 10, Comment(textComment = "Комментарий к посту"))
+
+    println("\n*** Удаление постов ")
+    WallService.delete(Post(id = 3))
+    WallService.delete(Post(id = 3))
+    WallService.delete(Post(id = 12))
+    WallService.printAllPost()
+
+    println("\nВосстановление поста")
+    WallService.undelete(Post(id = 3))
+    WallService.undelete(Post(id = 5))
+    WallService.undelete(Post(id = 11))
+
+    WallService.getComment(0)
+    println("Коммент ${WallService.getComment(0).idComment}" +
+            " к посту ${WallService.getComment(0).idPostComment}" +
+            " ${WallService.getComment(0).commentDelete}" +
+            " ${WallService.getComment(0).textComment}")
+
+    WallService.updateComment(Comment(2, textComment = "Вместо второго коммента"))
+    println("Коммент ${WallService.getComment(2).idComment}" +
+            " к посту ${WallService.getComment(2).idPostComment}" +
+            " ${WallService.getComment(2).textComment}")
+
+    println("\n*** Удаление комментов ")
+    WallService.deleteComment(Comment(idComment = 1))
+
+    WallService.unDeleteComment(Comment(idComment = 1))
+    println("Коммент ${WallService.getComment(0).idComment}" +
+            " к посту ${WallService.getComment(0).idPostComment}" +
+            " ${WallService.getComment(0).textComment}")
 }
